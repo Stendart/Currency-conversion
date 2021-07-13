@@ -1,8 +1,12 @@
 <template>
   <div class="cureency mx-auto">
     <ExchangeRateItem
-            :main-currency="{price: 25, currencyName: 'USD'}"
-            :minor-currency="{price: 50, currencyName: 'RUB'}"></ExchangeRateItem>
+            v-for="(currency, CharKey) in currencyList" :key="CharKey"
+            :title="CharKey"
+            :currency="currency"
+            :main-currency="{price: 1, currencyName: CharKey}"
+            :minor-currency="{price: currency.Value, currencyName: 'RUB'}">
+    </ExchangeRateItem>
 <!--    <div v-for="(currency, CharKey) in currencyList" :key="CharKey">-->
 <!--      <span>{{CharKey}}</span> - <span>{{currency.Value}}</span>-->
 <!--    </div>-->

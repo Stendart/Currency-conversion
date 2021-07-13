@@ -2,21 +2,15 @@
     <div>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title text-muted">{{currencyTitle}}</h5>
+                <h5 class="card-title text-muted">{{currency.Name}}</h5>
                 <div class="rate-wrapper">
                     <div>
-                        <span>{{mainCurrency.price}} {{mainCurrency.currencyName}}</span>
-                        <button class="exchangeBtn">⟷</button>
-                        <span>{{minorCurrency.price}} {{minorCurrency.currencyName}}</span>
+                        <span>{{getCurrencyPair.first.price}} {{getCurrencyPair.first.currencyName}}</span>
+                        <button class="exchangeBtn" @click="clickHandler">⟷</button>
+                        <span>{{getCurrencyPair.second.price}} {{getCurrencyPair.second.currencyName}}</span>
                     </div>
-                    <span :class="[false ? 'text-danger': 'text-success']">↑ 0,225</span>
+                    <span :class="[isIncrease ? 'text-success': 'text-danger']">{{setValueCurrency}}</span>
                 </div>
-
-<!--                <p class="card-text">-->
-<!--                    Some quick example text to build on the card title and make up the bulk of the-->
-<!--                    card's content.-->
-<!--                </p>-->
-<!--                <button type="button" class="btn btn-primary">Button</button>-->
             </div>
         </div>
     </div>
@@ -26,19 +20,79 @@
   export default {
     name: "ExchangeRateItem",
     props: {
-      currencyTitle: {
-        type: String,
-        default: 'Название не указанно'
-      },
-      mainCurrency: {
-        type: Object,
-        require: true
-      },
-      minorCurrency: {
+      // currencyTitle: {
+      //   type: String,
+      //   default: 'Название не указанно'
+      // },
+      // mainCurrency: {
+      //   type: Object,
+      //   require: true
+      // },
+      // minorCurrency: {
+      //   type: Object,
+      //   require: true
+      // },
+      currency: {
         type: Object,
         require: true
       }
-    }
+    },
+    data() {
+      return {
+        isReverse: false,
+        firstCurrency: {
+          price: this.currency.Nominal,
+          currencyName: this.currency.CharCode
+        },
+        secondCurrency: {
+          price: this.currency.Value,
+          currencyName: 'RUB'
+        },
+      }
+    },
+    methods: {
+      clickHandler() {
+        this.isReverse = !this.isReverse;
+        this.$emit('reverseCurrency')
+      }
+    },
+    computed: {
+      calcDiferentCurrency() {
+        return this.currency.Value - this.currency.Previous
+      },
+      isIncrease() {
+        return this.calcDiferentCurrency >= 0
+      },
+      setValueCurrency() {
+        if(this.isIncrease) {
+          return '↑' + this.calcDiferentCurrency.toFixed(2)
+        }
+        return '↓' + this.calcDiferentCurrency.toFixed(2)
+      },
+      getCurrencyPair() {
+        if(this.isReverse) {
+          return {
+            first: this.secondCurrency,
+            second: this.firstCurrency,
+          }
+        }
+        return {
+          first: this.firstCurrency,
+          second: this.secondCurrency,
+        }
+      }
+    },
+    watch: {
+      // isReverse(newVal, oldVal) {
+      //   if(newVal) {
+      //     this.firstCurrency = this.minorCurrency;
+      //     this.secondCurrency = this.mainCurrency;
+      //     return;
+      //   }
+      //   this.firstCurrency = this.mainCurrency;
+      //   this.secondCurrency = this.minorCurrency;
+      // }
+    },
   }
 </script>
 
