@@ -17,7 +17,9 @@
 </template>
 
 <script>
-  export default {
+    import {calculateCourse, swapCurrency} from '../core/utils';
+
+    export default {
     name: "ExchangeRateItem",
     props: {
       // currencyTitle: {
@@ -54,9 +56,6 @@
       clickHandler() {
         this.isReverse = !this.isReverse;
       },
-      calculateCourse(mainCur, minorCur) { // Вынести в отдельный файл
-        return mainCur / minorCur;
-      }
     },
     computed: {
       calcDiferentCurrency() {
@@ -72,7 +71,7 @@
         return '↓' + this.calcDiferentCurrency.toFixed(2);
       },
       getCurrencyPair() {
-        const course = this.calculateCourse(this.changeCurrency.second.price, this.changeCurrency.first.price);
+        const course = calculateCourse(this.changeCurrency.second.price, this.changeCurrency.first.price);
         const price = (course * this.currency.Nominal).toFixed(3);
         return {
           first: {...this.changeCurrency.first, price: this.currency.Nominal},
@@ -81,9 +80,10 @@
       },
       changeCurrency() {
         if(this.isReverse) {
+          const {main, minor} = swapCurrency(this.firstCurrency, this.secondCurrency)
           return {
-            first: this.secondCurrency,
-            second: this.firstCurrency,
+            first: main,
+            second: minor,
           }
         }
         return {
@@ -91,17 +91,6 @@
           second: this.secondCurrency,
         }
       }
-    },
-    watch: {
-      // isReverse(newVal, oldVal) {
-      //   if(newVal) {
-      //     this.firstCurrency = this.minorCurrency;
-      //     this.secondCurrency = this.mainCurrency;
-      //     return;
-      //   }
-      //   this.firstCurrency = this.mainCurrency;
-      //   this.secondCurrency = this.minorCurrency;
-      // }
     },
   }
 </script>
