@@ -53,23 +53,34 @@
     methods: {
       clickHandler() {
         this.isReverse = !this.isReverse;
-        this.$emit('reverseCurrency')
+        // this.$emit('reverseCurrency')
+      },
+      calculateCourse(mainCur, minorCur) { // Вынести в отдельный файл
+        return mainCur / minorCur;
       }
     },
     computed: {
       calcDiferentCurrency() {
-        return this.currency.Value - this.currency.Previous
+        return this.currency.Value - this.currency.Previous;
       },
       isIncrease() {
-        return this.calcDiferentCurrency >= 0
+        return this.calcDiferentCurrency >= 0;
       },
       setValueCurrency() {
         if(this.isIncrease) {
-          return '↑' + this.calcDiferentCurrency.toFixed(2)
+          return '↑' + this.calcDiferentCurrency.toFixed(2);
         }
-        return '↓' + this.calcDiferentCurrency.toFixed(2)
+        return '↓' + this.calcDiferentCurrency.toFixed(2);
       },
       getCurrencyPair() {
+        const t = this.calculateCourse(this.changeCurrency.second.price, this.changeCurrency.first.price);
+
+        return {
+          first: {...this.changeCurrency.first, price: this.currency.Nominal},
+          second: {...this.changeCurrency.second, price: t * this.currency.Nominal}
+        }
+      },
+      changeCurrency() {
         if(this.isReverse) {
           return {
             first: this.secondCurrency,
