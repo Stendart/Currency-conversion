@@ -1,10 +1,12 @@
 <template>
   <div class="cureency mx-auto">
-    <SearchFilter title="Введите название валюты или её код" @searchClick="searchClick"></SearchFilter>
-    <ExchangeRateItem
+    <SearchFilter class="my-4" title="Введите название валюты или её код"
+                  @searchClick="searchClick"></SearchFilter>
+    <ExchangeRateItem class="mb-2"
             v-for="currency in currencyFilteredList" :key="currency.CharCode"
             :currency="currency">
     </ExchangeRateItem>
+    <h3 v-if="showNothingFilter">По заданному фильтру ничего не найдено</h3>
   </div>
 </template>
 
@@ -27,7 +29,8 @@ export default {
   computed: {
     currencyFilteredList() {
       const valute = this.$store.getters.getValute;
-      if (valute) {          // Вынести
+
+      if (valute) {
        const filteredList = Object.values(valute);
        if(!this.searchString) {
          return filteredList;
@@ -37,6 +40,9 @@ export default {
                  el.Name.toLowerCase().includes(this.searchString.toLowerCase())
        });
       }
+    },
+    showNothingFilter() {
+      return !this.currencyFilteredList?.length
     }
   },
   components: {

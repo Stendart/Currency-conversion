@@ -2,12 +2,17 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title text-muted">
-                {{selectedCurrency ? selectedCurrency.Name : ''}}</h5>
+                {{selectedCurrency ? selectedCurrency.Name : ''}}
+            </h5>
             <div class="">
                 <select class="form-select form-select-lg py-3 outline" v-model="selectedCurrency" >
                     <option
                             v-for="curency in currencyList"
-                            :key="curency.CharCode" :value="curency">{{curency.CharCode}}</option>
+                            :key="curency.CharCode"
+                            :value="curency"
+                    >
+                        {{curency.CharCode}}
+                    </option>
                 </select>
                 <input class="border-primary input"
                        :value="inputVal"
@@ -63,5 +68,6 @@
 .input {
     border-width:0 0 2px;
     outline: none;
+    max-width: 100%;
 }
 </style>

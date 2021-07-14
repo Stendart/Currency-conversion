@@ -17,23 +17,11 @@
 </template>
 
 <script>
-    import {calculateCourse, swapCurrency} from '../core/utils';
+    import {calculateCourse, calculatePrice, swapCurrency} from '../core/utils';
 
     export default {
     name: "ExchangeRateItem",
     props: {
-      // currencyTitle: {
-      //   type: String,
-      //   default: 'Название не указанно'
-      // },
-      // mainCurrency: {
-      //   type: Object,
-      //   require: true
-      // },
-      // minorCurrency: {
-      //   type: Object,
-      //   require: true
-      // },
       currency: {
         type: Object,
         require: true
@@ -72,7 +60,7 @@
       },
       getCurrencyPair() {
         const course = calculateCourse(this.changeCurrency.second.price, this.changeCurrency.first.price);
-        const price = (course * this.currency.Nominal).toFixed(3);
+        const price = calculatePrice(course, this.currency.Nominal);
         return {
           first: {...this.changeCurrency.first, price: this.currency.Nominal},
           second: {...this.changeCurrency.second, price: price}
@@ -107,9 +95,4 @@
     justify-content: space-between;
     font-size: 1.5rem;
 }
-
-    .text {
-        line-height: 1.5rem;
-        height: 1.6rem;
-    }
 </style>

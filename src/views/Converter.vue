@@ -1,5 +1,5 @@
 <template>
-  <div class="convert">
+  <div class="convert mx-auto mt-4">
     <ConverterCard
             :currencies="currencyList"
             :inputVal="nominal"
@@ -56,6 +56,7 @@ import {calculateCourse, swapCurrency} from '../core/utils';
         // Курс к рублю
         let rubCourse = calculateCourse(this.mainCurrency?.Value, this.mainCurrency?.Nominal);
         rubCourse *= this.minorCurrency?.Nominal;
+        //Курс второй валюты относительно рубля
         const course = calculateCourse(rubCourse, this.minorCurrency?.Value);
         const minorCourse = course * this.nominal;
         return minorCourse.toFixed(3);
@@ -69,6 +70,9 @@ import {calculateCourse, swapCurrency} from '../core/utils';
 <style scoped>
   .convert {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    min-width: 50%;
+    max-width: 60%;
   }
 </style>
