@@ -53,7 +53,6 @@
     methods: {
       clickHandler() {
         this.isReverse = !this.isReverse;
-        // this.$emit('reverseCurrency')
       },
       calculateCourse(mainCur, minorCur) { // Вынести в отдельный файл
         return mainCur / minorCur;

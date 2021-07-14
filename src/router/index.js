@@ -11,9 +11,9 @@ const routes = [
     component: Currency
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/converter',
+    name: 'Converter',
+    component: () => import('../views/Converter.vue')
   }
 ]
 

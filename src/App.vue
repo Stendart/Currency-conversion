@@ -2,12 +2,18 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Список валют</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/converter">Конвертер</router-link>
     </div>
     <router-view/>
   </div>
 </template>
-
+<script>
+  export default {
+    created() {
+      this.$store.dispatch('loadCurrencyList')
+    }
+  }
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
