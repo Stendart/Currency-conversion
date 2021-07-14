@@ -73,11 +73,11 @@
         return '↓' + this.calcDiferentCurrency.toFixed(2);
       },
       getCurrencyPair() {
-        const t = this.calculateCourse(this.changeCurrency.second.price, this.changeCurrency.first.price);
-
+        const course = this.calculateCourse(this.changeCurrency.second.price, this.changeCurrency.first.price);
+        const price = (course * this.currency.Nominal).toFixed(3);
         return {
           first: {...this.changeCurrency.first, price: this.currency.Nominal},
-          second: {...this.changeCurrency.second, price: t * this.currency.Nominal}
+          second: {...this.changeCurrency.second, price: price}
         }
       },
       changeCurrency() {
